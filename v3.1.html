@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#dfe6f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0f1e">
+<title>Class Routine · EEE 1-2 (F2) · DIU Fall 2026</title>
+<style>
+  /* ============ LIQUID GLASS · LIGHT (default) ============ */
+  :root{
+    --ink:#141a2e;
+    --muted:#5b6478;
+    --glass:rgba(255,255,255,.42);
+    --glass-strong:rgba(255,255,255,.58);
+    --glass-border:rgba(255,255,255,.65);
+    --glass-shadow:0 8px 32px rgba(31,45,90,.10), inset 0 1px 0 rgba(255,255,255,.7);
+    --chip:rgba(255,255,255,.5);
+    --chip-border:rgba(255,255,255,.7);
+    --theory-tint:linear-gradient(160deg, rgba(16,185,129,.16), rgba(16,185,129,.05));
+    --lab-tint:linear-gradient(160deg, rgba(59,130,246,.16), rgba(59,130,246,.05));
+    --theory-solid:#059669; --theory-chip:rgba(110,231,183,.45); --theory-deep:#065f46;
+    --lab-solid:#3b82f6;   --lab-chip:rgba(147,197,253,.45);   --lab-deep:#1e40af;
+    --comb:rgba(196,181,253,.5); --comb-deep:#5b21b6;
+    --batch:rgba(165,180,252,.5); --batch-deep:#3730a3;
+    --live-t:rgba(253,230,138,.6); --live-t-deep:#92400e;
+    --pill-txt:#2a3350;
+    --pill-active-bg:#141a2e; --pill-active-txt:#ffffff;
+    --mesh:
+      radial-gradient(at 12% 6%,  rgba(99,102,241,.34), transparent 52%),
+      radial-gradient(at 88% 10%, rgba(56,189,248,.34), transparent 52%),
+      radial-gradient(at 82% 92%, rgba(244,114,182,.30), transparent 55%),
+      radial-gradient(at 8% 88%,  rgba(52,211,153,.30), transparent 55%);
+    --base:linear-gradient(180deg,#e9eefb,#f6f8fd);
+  }
+  /* ============ LIQUID GLASS · DARK ============ */
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#eef1fa;
+      --muted:#9aa3b8;
+      --glass:rgba(22,27,46,.42);
+      --glass-strong:rgba(22,27,46,.55);
+      --glass-border:rgba(255,255,255,.12);
+      --glass-shadow:0 8px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+      --chip:rgba(255,255,255,.07);
+      --chip-border:rgba(255,255,255,.14);
+      --theory-tint:linear-gradient(160deg, rgba(16,185,129,.22), rgba(16,185,129,.07));
+      --lab-tint:linear-gradient(160deg, rgba(59,130,246,.24), rgba(59,130,246,.07));
+      --theory-chip:rgba(16,185,129,.25); --theory-deep:#6ee7b7;
+      --lab-chip:rgba(59,130,246,.28);   --lab-deep:#93c5fd;
+      --comb:rgba(139,92,246,.28); --comb-deep:#c4b5fd;
+      --batch:rgba(99,102,241,.30); --batch-deep:#c7d2fe;
+      --live-t:rgba(245,158,11,.25); --live-t-deep:#fcd34d;
+      --pill-txt:#dfe4f2;
+      --pill-active-bg:#f1f5fb; --pill-active-txt:#141a2e;
+      --mesh:
+        radial-gradient(at 12% 6%,  rgba(99,102,241,.28), transparent 52%),
+        radial-gradient(at 88% 10%, rgba(14,116,233,.24), transparent 52%),
+        radial-gradient(at 82% 92%, rgba(190,24,93,.22), transparent 55%),
+        radial-gradient(at 8% 88%,  rgba(5,150,105,.22), transparent 55%);
+      --base:linear-gradient(180deg,#0a0f1e,#10162a);
+    }
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans Bengali",sans-serif;
+    color:var(--ink);line-height:1.45;min-height:100vh;
+    background:var(--base);background-attachment:fixed;
+  }
+  body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--mesh)}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 14px 70px}
+
+  /* ---------- Glass top bar (hides on scroll) ---------- */
+  header.topbar{
+    position:sticky;top:0;z-index:60;
+    background:var(--glass-strong);
+    -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);
+    border-bottom:1px solid var(--glass-border);
+    box-shadow:0 6px 30px rgba(15,23,42,.08);
+    transition:transform .38s cubic-bezier(.4,0,.2,1), opacity .38s ease;
+    will-change:transform,opacity;
+  }
+  header.topbar.hide{transform:translateY(-108%);opacity:0;pointer-events:none}
+  .top-inner{max-width:920px;margin:0 auto;padding:13px 14px 12px}
+  .brand-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{width:42px;height:42px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;font-size:21px;
+    background:linear-gradient(135deg,rgba(251,191,36,.9),rgba(245,158,11,.75));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -6px 12px rgba(217,119,6,.35), 0 4px 14px rgba(245,158,11,.35)}
+  .brand h1{font-size:1.04rem;letter-spacing:.2px}
+  .brand p{font-size:.76rem;color:var(--muted)}
+  .head-chips{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .hchip{font-size:.67rem;padding:4px 11px;border-radius:999px;white-space:nowrap;color:var(--muted);
+    background:var(--chip);border:1px solid var(--chip-border)}
+
+  /* ---------- Day nav ---------- */
+  nav.daynav{margin-top:11px;display:flex;gap:8px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none;scroll-snap-type:x proximity}
+  nav.daynav::-webkit-scrollbar{display:none}
+  .pill{scroll-snap-align:start;flex:none;cursor:pointer;font-family:inherit;font-size:.79rem;font-weight:650;
+    color:var(--pill-txt);padding:8px 16px;border-radius:999px;
+    background:var(--chip);border:1px solid var(--chip-border);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    transition:all .2s ease}
+  .pill:hover{transform:translateY(-1px)}
+  .pill.active{background:var(--pill-active-bg);color:var(--pill-active-txt);border-color:transparent;
+    box-shadow:0 4px 14px rgba(15,23,42,.22)}
+  .pill .tmark{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34d399;margin-left:6px;vertical-align:1px}
+
+  /* ---------- Legend / stats ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:17px 2px 5px;font-size:.78rem;color:var(--muted)}
+  .lg{display:flex;align-items:center;gap:7px;font-weight:650}
+  .dot{width:13px;height:13px;border-radius:5px;flex:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+  .dot.g{background:var(--theory-solid)} .dot.b{background:var(--lab-solid)}
+  .stats{margin-left:auto;font-size:.74rem}
+  .stats b{color:var(--ink)}
+
+  /* ---------- Day section ---------- */
+  .day-head{display:flex;align-items:baseline;gap:10px;margin:22px 2px 12px}
+  .day-head h2{font-size:1.05rem}
+  .today-badge{font-size:.65rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 10px;border-radius:999px;
+    color:var(--theory-deep);background:var(--theory-chip);border:1px solid var(--glass-border);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .day-head .cnt{margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:650}
+
+  /* ---------- Glass class card ---------- */
+  .card{position:relative;border-radius:20px;padding:14px 16px 14px 15px;margin-bottom:12px;
+    background:var(--glass);border:1px solid var(--glass-border);
+    box-shadow:var(--glass-shadow);
+    -webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);
+    transition:transform .18s ease, box-shadow .18s ease;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
+  .card.theory{background:var(--glass)}
+  .card.lab{background:var(--glass)}
+  .card.theory::before{background:linear-gradient(180deg,#34d399,#059669)}
+  .card.lab::before{background:linear-gradient(180deg,#60a5fa,#2563eb)}
+  .card.theory .tint{position:absolute;inset:0;background:var(--theory-tint);pointer-events:none}
+  .card.lab .tint{position:absolute;inset:0;background:var(--lab-tint);pointer-events:none}
+  .card:hover{transform:translateY(-2px)}
+  .card.past{opacity:.5}
+  .row1{display:flex;align-items:flex-start;gap:10px;position:relative}
+  .cname{font-size:.96rem;font-weight:700}
+  .type-chip{flex:none;font-size:.61rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--glass-border)}
+  .theory .type-chip{background:var(--theory-chip);color:var(--theory-deep)}
+  .lab .type-chip{background:var(--lab-chip);color:var(--lab-deep)}
+  .ccode{font-size:.72rem;color:var(--muted);font-weight:600;margin-top:2px}
+  .meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;position:relative}
+  .mchip{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:600;color:var(--ink);
+    background:var(--chip);border:1px solid var(--chip-border);padding:4px 10px;border-radius:10px;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .mchip.live-t{background:var(--live-t);color:var(--live-t-deep);font-weight:800;border-color:transparent}
+  .mchip .dim{color:var(--muted);font-weight:600}
+  .subchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;position:relative}
+  .sub{font-size:.66rem;font-weight:700;padding:3px 9px;border-radius:8px;border:1px solid var(--glass-border)}
+  .sub.batch{background:var(--batch);color:var(--batch-deep)}
+  .sub.comb{background:var(--comb);color:var(--comb-deep)}
+  .live-badge{position:absolute;top:-1px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:5px;
+    background:linear-gradient(135deg,#f87171,#dc2626);color:#fff;font-size:.6rem;font-weight:800;letter-spacing:1px;
+    padding:4px 11px;border-radius:0 0 10px 10px;box-shadow:0 4px 12px rgba(220,38,38,.4), inset 0 1px 0 rgba(255,255,255,.35)}
+  .live-badge i{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+  @keyframes blink{50%{opacity:.25}}
+
+  /* ---------- Break chip & empty ---------- */
+  .brk{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.72rem;font-weight:700;margin:14px 0}
+  .brk::before,.brk::after{content:"";flex:1;height:1px;background:var(--glass-border)}
+  .empty{border-radius:20px;padding:34px 18px;text-align:center;color:var(--muted);
+    background:var(--glass);border:1px dashed var(--glass-border);
+    -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:var(--glass-shadow)}
+  .empty .emo{font-size:2rem}
+  .empty h3{font-size:.95rem;color:var(--ink);margin-top:8px}
+  .empty p{font-size:.77rem;margin-top:3px}
+
+  /* ---------- Footer (tiny note) ---------- */
+  footer{margin-top:30px;text-align:center}
+  footer .tiny{font-size:.68rem;color:var(--muted)}
+  footer .credit{font-size:.72rem;color:var(--muted);margin-top:6px}
+  footer b{color:var(--ink)}
+
+  @media (max-width:520px){
+    .brand h1{font-size:.93rem}
+    .head-chips{display:none}
+    .cname{font-size:.9rem}
+    .stats{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="top-inner">
+    <div class="brand-row">
+      <div class="logo">⚡</div>
+      <div class="brand">
+        <h1>Class Routine — EEE 1-2 (Section F2)</h1>
+        <p>ফল ২০২৬ • Dept. of EEE • Daffodil International University</p>
+      </div>
+      <div class="head-chips">
+        <span class="hchip">📅 Fall 2026</span>
+        <span class="hchip">Routine v3.0 · Effective Sep 19, 2026</span>
+      </div>
+    </div>
+    <nav class="daynav" id="daynav"></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="legend">
+    <span class="lg"><span class="dot g"></span> Theory</span>
+    <span class="lg"><span class="dot b"></span> Lab</span>
+    <span class="stats" id="stats"></span>
+  </div>
+  <main id="content"></main>
+
+  <footer>
+    <p class="tiny">ℹ️ শুধু F2 ব্যাচ · Chemistry ল্যাব Civil-A (303)-এ · Source: Routine v3.0</p>
+    <p class="credit">Made with ❤️ for <b>EEE 1-2 · Section F2</b> · Daffodil International University</p>
+  </footer>
+</div>
+
+<script>
+/* =============== DATA : 1-2 F2 (strict filter) =============== */
+const TEACHERS = {
+  "SS"  : "Sarna Sarker",
+  "MW"  : "Md. Wahiduzzaman",
+  "ShA" : "Dr. Md. Shahin Azad",
+  "MSH" : "Md. Sanowar Hosen",
+  "SRA" : "Songita Rani Adhikary",
+  "SHS" : "Sayeed Hossain Sayor",
+  "MSA" : "Dr. M. Shamsul Alam"
+};
+
+const ROUTINE = [
+  /* ---- Sunday ---- */
+  {day:"Sunday", s:570,  e:630,  code:"0541-121", title:"Ordinary and Partial Differential Equation", type:"theory", room:"Room 103", ti:"SS",  time:"9:30 – 10:30 AM"},
+  {day:"Sunday", s:630,  e:690,  code:"0713-121", title:"Electrical Circuits II", type:"theory", room:"Room 103", ti:"MW", time:"10:30 – 11:30 AM"},
+  {day:"Sunday", s:780,  e:900,  code:"0531-112", title:"Chemistry Laboratory", type:"lab", room:"Civil-A 303", ti:"ShA", time:"1:00 – 3:00 PM", batch:true},
+
+  /* ---- Monday ---- */
+  {day:"Monday", s:510,  e:630,  code:"0713-122", title:"Electrical Circuits Laboratory", type:"lab", room:"Room 105", ti:"MSH", time:"8:30 – 10:30 AM", batch:true},
+  {day:"Monday", s:630,  e:690,  code:"0713-121", title:"Electrical Circuits II", type:"theory", room:"Room 405", ti:"MW", time:"10:30 – 11:30 AM"},
+  {day:"Monday", s:780,  e:840,  code:"0531-121", title:"Chemistry", type:"theory", room:"Room 406", ti:"SRA", time:"1:00 – 2:00 PM"},
+
+  /* ---- Tuesday ---- */
+  {day:"Tuesday", s:630, e:690,  code:"0541-121", title:"Ordinary and Partial Differential Equation", type:"theory", room:"Room 302", ti:"SS",  time:"10:30 – 11:30 AM"},
+  {day:"Tuesday", s:690, e:750,  code:"0531-121", title:"Chemistry", type:"theory", room:"Room 302", ti:"SRA", time:"11:30 – 12:30 PM"},
+
+  /* ---- Wednesday ---- */
+  {day:"Wednesday", s:510, e:630, code:"0713-121", title:"Electrical Circuits II", type:"theory", room:"Room 103", ti:"MSA", time:"8:30 – 10:30 AM", combined:"Combined with Section D (Batch F2)"},
+  {day:"Wednesday", s:690, e:750, code:"0531-121", title:"Chemistry", type:"theory", room:"Room 301", ti:"SRA", time:"11:30 – 12:30 PM"},
+  {day:"Wednesday", s:780, e:900, code:"0613-122", title:"Programming I", type:"lab", room:"Room 203", ti:"SHS", time:"1:00 – 3:00 PM", batch:true},
+  {day:"Wednesday", s:900, e:960, code:"0541-121", title:"Ordinary and Partial Differential Equation", type:"theory", room:"Room 301", ti:"SS", time:"3:00 – 4:00 PM"}
+];
+
+const DAYS = ["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"];
+
+/* =============== STATE =============== */
+const now = new Date();
+const TODAY = DAYS[(now.getDay() + 1) % 7];
+let selected = TODAY;
+
+/* =============== HELPERS =============== */
+const $ = sel => document.querySelector(sel);
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const minsNow = now.getHours()*60 + now.getMinutes();
+
+function statusOf(cls, day){
+  if(day !== TODAY) return "";
+  if(minsNow >= cls.s && minsNow < cls.e) return "live";
+  if(minsNow >= cls.e) return "past";
+  return "upcoming";
+}
+
+function cardHTML(cls, day){
+  const st = statusOf(cls, day);
+  const icon = cls.type === "lab" ? "🧪" : "📗";
+  const tLabel = cls.type === "lab" ? "Lab" : "Theory";
+  const dur = cls.e - cls.s;
+  const durTxt = dur % 60 === 0 ? (dur/60) + " hr" : Math.floor(dur/60) + "h " + (dur%60) + "m";
+  const pastCls = st === "past" ? " past" : "";
+  const subs = [];
+  if(cls.batch) subs.push('<span class="sub batch">Batch F2</span>');
+  if(cls.combined) subs.push('<span class="sub comb">🔗 ' + esc(cls.combined) + '</span>');
+
+  return `
+  <article class="card ${cls.type}${pastCls}">
+    <span class="tint"></span>
+    ${st === "live" ? '<span class="live-badge"><i></i>LIVE</span>' : ""}
+    <div class="row1">
+      <div style="flex:1;min-width:0">
+        <div class="cname">${icon} ${esc(cls.title)}</div>
+        <div class="ccode">${esc(cls.code)} · ${cls.day}</div>
+      </div>
+      <span class="type-chip">${tLabel}</span>
+    </div>
+    <div class="meta">
+      <span class="mchip ${st === "live" ? "live-t" : ""}">🕐 ${esc(cls.time)} <span class="dim">· ${durTxt}</span></span>
+      <span class="mchip">🚪 ${esc(cls.room)}</span>
+      <span class="mchip">👨‍🏫 ${esc(TEACHERS[cls.ti] || cls.ti)} <span class="dim">(${esc(cls.ti)})</span></span>
+    </div>
+    ${subs.length ? '<div class="subchips">' + subs.join("") + "</div>" : ""}
+  </article>`;
+}
+
+function breakChipIfNeeded(list, i){
+  if(i === 0) return "";
+  if(list[i-1].e <= 750 && list[i].s >= 780){
+    return '<div class="brk">☕ Break · 12:30 – 1:00 PM</div>';
+  }
+  return "";
+}
+
+function daySectionHTML(day, withHead){
+  const list = ROUTINE.filter(c => c.day === day).sort((a,b) => a.s - b.s);
+  const head = withHead ? `
+    <div class="day-head">
+      <h2>${day}</h2>
+      ${day === TODAY ? '<span class="today-badge">Today</span>' : ""}
+      <span class="cnt">${list.length ? list.length + " class" + (list.length>1?"es":"") : "No class"}</span>
+    </div>` : "";
+
+  if(!list.length){
+    return head + `
+      <div class="empty">
+        <div class="emo">🎉</div>
+        <h3>No classes scheduled</h3>
+        <p>আজকে 1-2 F2-এর কোনো ক্লাস নেই — ভালোভাবে পড়ো বা বিশ্রাম নাও!</p>
+      </div>`;
+  }
+  let html = head;
+  list.forEach((c,i) => { html += breakChipIfNeeded(list,i) + cardHTML(c, day); });
+  return html;
+}
+
+/* =============== RENDER =============== */
+function render(){
+  const box = $("#content");
+  if(selected === "All"){
+    box.innerHTML = DAYS.map(d => daySectionHTML(d, true)).join("");
+  } else {
+    box.innerHTML =
+      '<div class="day-head"><h2>' + selected + '</h2>' +
+      (selected === TODAY ? '<span class="today-badge">Today</span>' : "") +
+      '</div>'
+      + daySectionHTML(selected, false);
+  }
+  document.querySelectorAll(".pill").forEach(p => {
+    p.classList.toggle("active", p.dataset.day === selected);
+  });
+  const total = ROUTINE.length;
+  const hrs = ROUTINE.reduce((a,c) => a + (c.e - c.s), 0) / 60;
+  $("#stats").innerHTML = "Weekly: <b>" + total + " classes</b> · <b>" + hrs + " hrs</b>";
+}
+
+/* =============== NAV =============== */
+(function buildNav(){
+  const nav = $("#daynav");
+  const items = ["All", ...DAYS];
+  nav.innerHTML = items.map(d =>
+    '<button class="pill" data-day="' + d + '">' + d +
+    (d === TODAY ? '<span class="tmark"></span>' : "") +
+    "</button>"
+  ).join("");
+  nav.addEventListener("click", e => {
+    const btn = e.target.closest(".pill");
+    if(!btn) return;
+    selected = btn.dataset.day;
+    render();
+    btn.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+})();
+
+/* =============== TOP BAR : fade & hide on scroll-down, return on scroll-up =============== */
+(function scrollHide(){
+  const bar = document.getElementById("topbar");
+  let lastY = window.scrollY, ticking = false;
+  window.addEventListener("scroll", () => {
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      if(y > 80 && y > lastY) bar.classList.add("hide");   // scrolling down → transparent + hidden
+      else bar.classList.remove("hide");                   // scrolling up   → slide back in
+      lastY = y;
+      ticking = false;
+    });
+  }, {passive:true});
+})();
+
+render();
+setInterval(render, 60000);
+</script>
+</body>
+</html>
