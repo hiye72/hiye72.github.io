@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1e293b">
+<title>Class Routine · EEE 1-2 (F2) · DIU Fall 2026</title>
+<style>
+  :root{
+    --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f1f5f9; --card:#ffffff;
+    --navy:#1e293b; --navy2:#334155;
+    --theory-bg:#ecfdf3; --theory-solid:#16a34a; --theory-deep:#14532d; --theory-soft:#bbf7d0;
+    --lab-bg:#eff6ff;   --lab-solid:#2563eb;   --lab-deep:#1e3a8a;   --lab-soft:#bfdbfe;
+    --comb-bg:#f5f3ff; --comb-solid:#7c3aed;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+  .wrap{max-width:920px;margin:0 auto;padding:0 14px 64px}
+
+  /* ---------- Header ---------- */
+  header.topbar{position:sticky;top:0;z-index:60;background:linear-gradient(135deg,#0f172a 0%,#1e293b 55%,#243b55 100%);color:#fff;box-shadow:0 4px 18px rgba(15,23,42,.28)}
+  .top-inner{max-width:920px;margin:0 auto;padding:14px 14px 12px}
+  .brand-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+  .brand h1{font-size:1.06rem;letter-spacing:.2px}
+  .brand p{font-size:.78rem;color:#cbd5e1}
+  .head-chips{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .hchip{font-size:.68rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:4px 10px;border-radius:999px;color:#e2e8f0;white-space:nowrap}
+
+  /* ---------- Day nav (slider bar) ---------- */
+  nav.daynav{margin-top:12px;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;scroll-snap-type:x proximity}
+  nav.daynav::-webkit-scrollbar{display:none}
+  .pill{scroll-snap-align:start;flex:none;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#e2e8f0;font-size:.8rem;font-weight:600;padding:8px 15px;border-radius:999px;cursor:pointer;transition:all .18s ease;font-family:inherit}
+  .pill:hover{background:rgba(255,255,255,.18)}
+  .pill.active{background:#fbbf24;border-color:#fbbf24;color:#1e293b;box-shadow:0 3px 10px rgba(251,191,36,.35)}
+  .pill .tmark{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34d399;margin-left:6px;vertical-align:1px}
+
+  /* ---------- Legend / stats ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:16px 2px 6px;font-size:.78rem;color:var(--muted)}
+  .lg{display:flex;align-items:center;gap:7px;font-weight:600;color:#475569}
+  .dot{width:13px;height:13px;border-radius:4px;flex:none}
+  .dot.g{background:var(--theory-solid)} .dot.b{background:var(--lab-solid)}
+  .stats{margin-left:auto;font-size:.75rem;color:var(--muted)}
+  .stats b{color:var(--navy)}
+
+  /* ---------- Day section ---------- */
+  .day-head{display:flex;align-items:baseline;gap:10px;margin:22px 2px 12px}
+  .day-head h2{font-size:1.05rem}
+  .today-badge{font-size:.66rem;font-weight:800;letter-spacing:.6px;color:#065f46;background:#d1fae5;border:1px solid #6ee7b7;padding:3px 9px;border-radius:999px;text-transform:uppercase}
+  .day-head .cnt{margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:600}
+
+  /* ---------- Class card ---------- */
+  .card{position:relative;display:block;background:var(--card);border:1px solid var(--line);border-left:5px solid;border-radius:14px;padding:13px 15px 13px 14px;margin-bottom:11px;box-shadow:0 1px 3px rgba(15,23,42,.06);transition:transform .15s ease,box-shadow .15s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,23,42,.10)}
+  .card.theory{background:linear-gradient(0deg,var(--theory-bg),var(--theory-bg)),#fff;border-left-color:var(--theory-solid)}
+  .card.lab{background:linear-gradient(0deg,var(--lab-bg),var(--lab-bg)),#fff;border-left-color:var(--lab-solid)}
+  .card.past{opacity:.55}
+  .row1{display:flex;align-items:flex-start;gap:10px}
+  .cname{font-size:.96rem;font-weight:700;flex:1;min-width:0}
+  .type-chip{flex:none;font-size:.62rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+  .theory .type-chip{background:var(--theory-soft);color:var(--theory-deep)}
+  .lab .type-chip{background:var(--lab-soft);color:var(--lab-deep)}
+  .ccode{font-size:.72rem;color:var(--muted);font-weight:600;margin-top:2px}
+  .meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+  .mchip{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:600;color:#334155;background:rgba(255,255,255,.75);border:1px solid var(--line);padding:4px 10px;border-radius:8px}
+  .mchip.live-t{border-color:#f59e0b;background:#fffbeb;color:#92400e;font-weight:800}
+  .subchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .sub{font-size:.66rem;font-weight:700;padding:3px 8px;border-radius:6px}
+  .sub.batch{background:#e0e7ff;color:#3730a3}
+  .sub.comb{background:var(--comb-bg);color:var(--comb-solid);border:1px solid #ddd6fe}
+  .live-badge{position:absolute;top:-9px;right:14px;display:inline-flex;align-items:center;gap:5px;background:#dc2626;color:#fff;font-size:.6rem;font-weight:800;letter-spacing:1px;padding:3px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(220,38,38,.4)}
+  .live-badge i{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+  @keyframes blink{50%{opacity:.25}}
+
+  /* ---------- Break chip & empty ---------- */
+  .brk{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.72rem;font-weight:700;margin:14px 0}
+  .brk::before,.brk::after{content:"";flex:1;height:1px;background:var(--line)}
+  .empty{background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:34px 18px;text-align:center;color:var(--muted)}
+  .empty .emo{font-size:2rem}
+  .empty h3{font-size:.95rem;color:#475569;margin-top:8px}
+  .empty p{font-size:.78rem;margin-top:3px}
+
+  /* ---------- Notes ---------- */
+  details.notes{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  details.notes summary{cursor:pointer;padding:13px 16px;font-size:.84rem;font-weight:700;color:var(--navy2);list-style:none;display:flex;align-items:center;gap:8px}
+  details.notes summary::after{content:"▾";margin-left:auto;color:var(--muted);transition:transform .15s}
+  details.notes[open] summary::after{transform:rotate(180deg)}
+  details.notes .body{padding:0 16px 14px;font-size:.78rem;color:#475569}
+  details.notes li{margin:6px 0 6px 18px}
+  footer{margin-top:26px;text-align:center;font-size:.72rem;color:var(--muted)}
+  footer b{color:#475569}
+
+  @media (max-width:520px){
+    .brand h1{font-size:.94rem}
+    .head-chips{display:none}
+    .cname{font-size:.9rem}
+    .stats{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="top-inner">
+    <div class="brand-row">
+      <div class="logo">⚡</div>
+      <div class="brand">
+        <h1>Class Routine — EEE 1-2 (Section F2)</h1>
+        <p>ফল ২০২৬ • Dept. of EEE • Daffodil International University</p>
+      </div>
+      <div class="head-chips">
+        <span class="hchip">📅 Fall 2026</span>
+        <span class="hchip">Routine v3.0 · Effective Sep 19, 2026</span>
+      </div>
+    </div>
+    <nav class="daynav" id="daynav"></nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="legend">
+    <span class="lg"><span class="dot g"></span> Theory</span>
+    <span class="lg"><span class="dot b"></span> Lab</span>
+    <span class="stats" id="stats"></span>
+  </div>
+  <main id="content"></main>
+
+  <details class="notes">
+    <summary>📝 Notes / নোটসমূহ</summary>
+    <div class="body">
+      <ul>
+        <li>এই রুটিনটি শুধুমাত্র <b>Level 1, Term 2 — Section F (Batch F2)</b>-এর জন্য ফিল্টার করা। F1 ব্যাচের ল্যাব/ক্লাস এখানে দেখানো হয়নি।</li>
+        <li>বুধবারের <b>Electrical Circuits II (8:30–10:30 AM, Room 103)</b> ক্লাসটি সেকশন D-এর সাথে কম্বাইনড — F2 ব্যাচ এ ক্লাসে যাবে। (মঙ্গলবারের কম্বাইনড সেশনটি F1 ব্যাচের।)</li>
+        <li>মূল রুটিনে Chemistry থিওরি (F) ভুলবশত <b>0531-111</b> এবং ল্যাব <b>0531-112</b> হিসেবে লেখা — রেজিস্ট্রেশন অনুযায়ী সঠিক কোড <b>0531-121 (Chemistry)</b> ও <b>0531-122 (Chemistry Laboratory)</b>।</li>
+        <li>Chemistry Laboratory হয় <b>Civil-A Building (Room 303)</b>-এ, EEE ভবনে নয়।</li>
+        <li>সোর্স: EEE Class Routine — Fall 2026, Version 3.0 (কার্যকর: ১৯ সেপ্টেম্বর ২০২৬)। রুটিন আপডেট হলে ডিপার্টমেন্টের নোটিশ দেখুন।</li>
+      </ul>
+    </div>
+  </details>
+
+  <footer>
+    Made with ❤️ for <b>EEE 1-2 · Section F2</b> · Daffodil International University<br>
+    Thursday &amp; Friday — Weekly Holiday · Saturday — No class for 1-2 F
+  </footer>
+</div>
+
+<script>
+/* =============== DATA : 1-2 F2 (Filter strict) =============== */
+const TEACHERS = {
+  "SS"  : "Sarna Sarker",
+  "MW"  : "Md. Wahiduzzaman",
+  "ShA" : "Dr. Md. Shahin Azad",
+  "MSH" : "Md. Sanowar Hosen",
+  "SRA" : "Songita Rani Adhikary",
+  "SHS" : "Sayeed Hossain Sayor",
+  "MSA" : "Dr. M. Shamsul Alam"
+};
+
+/* s/e = minutes from midnight (for live status) */
+const ROUTINE = [
+  /* ---- Sunday ---- */
+  {day:"Sunday", s:570,  e:630,  code:"0541-121", title:"Ordinary and Partial Differential Equation", type:"theory", room:"Room 103", place:"EEE Building", ti:"SS",  time:"9:30 – 10:30 AM"},
+  {day:"Sunday", s:630,  e:690,  code:"0713-121", title:"Electrical Circuits II", type:"theory", room:"Room 103", place:"EEE Building", ti:"MW", time:"10:30 – 11:30 AM"},
+  {day:"Sunday", s:780,  e:900,  code:"0531-112", title:"Chemistry Laboratory", type:"lab", room:"Civil-A 303", place:"Chemistry Lab, Civil-A Building", ti:"ShA", time:"1:00 – 3:00 PM", batch:true},
+
+  /* ---- Monday ---- */
+  {day:"Monday", s:510,  e:630,  code:"0713-122", title:"Electrical Circuits Laboratory", type:"lab", room:"Room 105", place:"EEE Building", ti:"MSH", time:"8:30 – 10:30 AM", batch:true},
+  {day:"Monday", s:630,  e:690,  code:"0713-121", title:"Electrical Circuits II", type:"theory", room:"Room 405", place:"EEE Building", ti:"MW", time:"10:30 – 11:30 AM"},
+  {day:"Monday", s:780,  e:840,  code:"0531-121", title:"Chemistry", type:"theory", room:"Room 406", place:"EEE Building", ti:"SRA", time:"1:00 – 2:00 PM"},
+
+  /* ---- Tuesday ---- */
+  {day:"Tuesday", s:630, e:690,  code:"0541-121", title:"Ordinary and Partial Differential Equation", type:"theory", room:"Room 302", place:"EEE Building", ti:"SS",  time:"10:30 – 11:30 AM"},
+  {day:"Tuesday", s:690, e:750,  code:"0531-121", title:"Chemistry", type:"theory", room:"Room 302", place:"EEE Building", ti:"SRA", time:"11:30 – 12:30 PM"},
+
+  /* ---- Wednesday ---- */
+  {day:"Wednesday", s:510, e:630, code:"0713-121", title:"Electrical Circuits II", type:"theory", room:"Room 103", place:"EEE Building", ti:"MSA", time:"8:30 – 10:30 AM", combined:"Combined with Section D (Batch F2)"},
+  {day:"Wednesday", s:690, e:750, code:"0531-121", title:"Chemistry", type:"theory", room:"Room 301", place:"EEE Building", ti:"SRA", time:"11:30 – 12:30 PM"},
+  {day:"Wednesday", s:780, e:900, code:"0613-122", title:"Programming I", type:"lab", room:"Room 203", place:"EEE Building", ti:"SHS", time:"1:00 – 3:00 PM", batch:true},
+  {day:"Wednesday", s:900, e:960, code:"0541-121", title:"Ordinary and Partial Differential Equation", type:"theory", room:"Room 301", place:"EEE Building", ti:"SS", time:"3:00 – 4:00 PM"}
+];
+
+const DAYS = ["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"];
+
+/* =============== STATE =============== */
+const now = new Date();
+const TODAY = DAYS[(now.getDay() + 1) % 7];              // JS: Sun=0 … Sat=6  →  BD week: Sat=0
+let selected = TODAY;
+
+/* =============== HELPERS =============== */
+const $ = sel => document.querySelector(sel);
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const minsNow = now.getHours()*60 + now.getMinutes();
+
+function statusOf(cls, day){
+  if(day !== TODAY) return "";
+  if(minsNow >= cls.s && minsNow < cls.e) return "live";
+  if(minsNow >= cls.e) return "past";
+  return "upcoming";
+}
+
+function cardHTML(cls, day){
+  const st = statusOf(cls, day);
+  const icon = cls.type === "lab" ? "🧪" : "📗";
+  const tLabel = cls.type === "lab" ? "Lab" : "Theory";
+  const dur = cls.e - cls.s;
+  const durTxt = dur % 60 === 0 ? (dur/60) + " hr" : Math.floor(dur/60) + "h " + (dur%60) + "m";
+  const pastCls = st === "past" ? " past" : "";
+  const subs = [];
+  if(cls.batch) subs.push('<span class="sub batch">Batch F2</span>');
+  if(cls.combined) subs.push('<span class="sub comb">🔗 ' + esc(cls.combined) + '</span>');
+
+  return `
+  <article class="card ${cls.type}${pastCls}">
+    ${st === "live" ? '<span class="live-badge"><i></i>LIVE</span>' : ""}
+    <div class="row1">
+      <div style="flex:1;min-width:0">
+        <div class="cname">${icon} ${esc(cls.title)}</div>
+        <div class="ccode">${esc(cls.code)} · ${cls.day}</div>
+      </div>
+      <span class="type-chip">${tLabel}</span>
+    </div>
+    <div class="meta">
+      <span class="mchip ${st === "live" ? "live-t" : ""}">🕐 ${esc(cls.time)} <span style="color:#94a3b8;font-weight:600">· ${durTxt}</span></span>
+      <span class="mchip">🚪 ${esc(cls.room)}</span>
+      <span class="mchip">👨‍🏫 ${esc(TEACHERS[cls.ti] || cls.ti)} <span style="color:#94a3b8">(${esc(cls.ti)})</span></span>
+    </div>
+    ${subs.length ? '<div class="subchips">' + subs.join("") + "</div>" : ""}
+  </article>`;
+}
+
+function breakChipIfNeeded(list, i){
+  if(i === 0) return "";
+  if(list[i-1].e <= 750 && list[i].s >= 780){
+    return '<div class="brk">☕ Break · 12:30 – 1:00 PM</div>';
+  }
+  return "";
+}
+
+function daySectionHTML(day, withHead){
+  const list = ROUTINE.filter(c => c.day === day).sort((a,b) => a.s - b.s);
+  const head = withHead ? `
+    <div class="day-head" id="d-${day}">
+      <h2>${day}</h2>
+      ${day === TODAY ? '<span class="today-badge">Today</span>' : ""}
+      <span class="cnt">${list.length ? list.length + " class" + (list.length>1?"es":"") : "No class"}</span>
+    </div>` : "";
+
+  if(!list.length){
+    return head + `
+      <div class="empty">
+        <div class="emo">🎉</div>
+        <h3>No classes scheduled</h3>
+        <p>আজকে 1-2 F2-এর কোনো ক্লাস নেই — ভালোভাবে পড়ো বা বিশ্রাম নাও!</p>
+      </div>`;
+  }
+  let html = head;
+  list.forEach((c,i) => { html += breakChipIfNeeded(list,i) + cardHTML(c, day); });
+  return html;
+}
+
+/* =============== RENDER =============== */
+function render(){
+  const box = $("#content");
+  if(selected === "All"){
+    box.innerHTML = DAYS.map(d => daySectionHTML(d, true)).join("");
+  } else {
+    box.innerHTML =
+      (selected === TODAY
+        ? '<div class="day-head"><h2>'+ selected +'</h2><span class="today-badge">Today</span></div>'
+        : '<div class="day-head"><h2>'+ selected +'</h2></div>')
+      + daySectionHTML(selected, false);
+  }
+  document.querySelectorAll(".pill").forEach(p => {
+    p.classList.toggle("active", p.dataset.day === selected);
+  });
+  const total = ROUTINE.length;
+  const hrs = ROUTINE.reduce((a,c) => a + (c.e - c.s), 0) / 60;
+  $("#stats").innerHTML = "Weekly: <b>" + total + " classes</b> · <b>" + hrs + " hrs</b>";
+}
+
+/* =============== NAV =============== */
+(function buildNav(){
+  const nav = $("#daynav");
+  const items = ["All", ...DAYS];
+  nav.innerHTML = items.map(d =>
+    '<button class="pill" data-day="' + d + '">' + d +
+    (d === TODAY ? '<span class="tmark"></span>' : "") +
+    "</button>"
+  ).join("");
+  nav.addEventListener("click", e => {
+    const btn = e.target.closest(".pill");
+    if(!btn) return;
+    selected = btn.dataset.day;
+    render();
+    btn.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+})();
+
+render();
+/* live status refresh every minute */
+setInterval(render, 60000);
+</script>
+</body>
+</html>
